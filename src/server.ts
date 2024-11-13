@@ -1,9 +1,11 @@
 import createApp from "./controller/app";
 import { createPgClient } from "./db";
+import 'dotenv/config';
+import { CONFIG } from './config';
 
-const PORT = 4400;
+const PORT = CONFIG.port;
 
-const dbClient = createPgClient();
+const dbClient = createPgClient({dbConnectionString: CONFIG.dbConnectionString});
 
 const options = {
   logger: {
