@@ -3,3 +3,5 @@ export type Owner = {
   name: string,
   age: number
 };
+
+export type OwnerToCreate = Omit<Owner, 'id'>;
