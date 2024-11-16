@@ -1,3 +1,5 @@
+import { OwnerToCreate } from "../entity/owner.type";
+import { PetToCreate } from "../entity/pet.type";
 import { OwnerRepository } from "../repository/owner.repository";
 
 export class OwnerService {
@@ -9,5 +11,9 @@ export class OwnerService {
 
   async getAll() {
     return await this.repository.read();
+  }
+  
+  async create(owner: OwnerToCreate) {
+    return await this.repository.create(owner);
   }
 }
