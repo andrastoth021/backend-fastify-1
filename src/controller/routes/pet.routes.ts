@@ -9,7 +9,9 @@ type PluginOptions = {
 
 export const petRoutes: FastifyPluginAsync<PluginOptions> = async (app, { petService }) => {
 
-  app.get('/api/pets', async () => {
+  // ENDPOINTS: /api/pets
+
+  app.get('/', async () => {
     const pets = await petService.getAll();
     return pets;
   })
@@ -18,7 +20,7 @@ export const petRoutes: FastifyPluginAsync<PluginOptions> = async (app, { petSer
     Body: PetToCreate;
     Reply: PetToCreate;
   }
-  app.post<PostPetsRoute>('/api/pets', {
+  app.post<PostPetsRoute>('/', {
     schema: PetToCreateSchema
   }, async (request, reply) => {
     const petToCreate = request.body;

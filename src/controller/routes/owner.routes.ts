@@ -9,7 +9,9 @@ type PluginOptions = {
 
 export const ownerRoutes: FastifyPluginAsync<PluginOptions> = async (app, { ownerService }) => {
 
-  app.get('/api/owners', async () => {
+  // ENDPOINTS: /api/owners
+
+  app.get('/', async () => {
     const owners = await ownerService.getAll();
     return owners;
   });
@@ -18,7 +20,7 @@ export const ownerRoutes: FastifyPluginAsync<PluginOptions> = async (app, { owne
     Body: OwnerToCreate;
     Reply: OwnerToCreate
   }
-  app.post<PostOwnersRoute>('/api/owners', {
+  app.post<PostOwnersRoute>('/', {
     schema: OwnerToCreateSchema
   }, async (request, reply) => {
     const ownerToCreate = request.body;
