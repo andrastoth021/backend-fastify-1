@@ -6,8 +6,7 @@ import { PetToCreate } from '../entity/pet.type';
 import { PetToCreateSchema } from '../schemas/PetToCreateSchema';
 import { OwnerRepository } from '../repository/owner.repository';
 import { OwnerService } from '../service/owner.service';
-import { OwnerToCreateSchema } from '../schemas/OwnerToCreateSchema';
-import { OwnerToCreate } from '../entity/owner.type';
+import { ownerRoutes } from './routes/owner.routes';
 
 type Dependencies = {
   dbClient: DbClient;
@@ -43,24 +42,7 @@ export default function createApp(options = {}, dependencies: Dependencies) {
     return created;
   })
 
-  app.get('/api/owners', async (request, reply) => {
-    const owners = await ownerService.getAll();
-    return owners;
-  });
-
-  type PostOwnersRoute = {
-    Body: OwnerToCreate;
-    Reply: OwnerToCreate
-  }
-  app.post<PostOwnersRoute>('/api/owners', {
-    schema: OwnerToCreateSchema
-  }, async (request, reply) => {
-    const ownerToCreate = request.body;
-
-    const created = await ownerService.create(ownerToCreate);
-    reply.status(201);
-    return created;
-  });
+  app.register(ownerRoutes, { ownerService });
 
   return app;
 }
