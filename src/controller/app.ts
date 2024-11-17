@@ -29,8 +29,11 @@ export default function createApp(options = {}, dependencies: Dependencies) {
   
   const app = fastify(options)
 
-  app.register(petRoutes, { prefix: "/api/pets", petService })
-  app.register(ownerRoutes, { prefix: "/api/owners", ownerService });
+  app.decorate('petService', petService);
+  app.decorate('ownerService', ownerService);
+
+  app.register(petRoutes, { prefix: "/api/pets" })
+  app.register(ownerRoutes, { prefix: "/api/owners" });
 
   return app;
 }
