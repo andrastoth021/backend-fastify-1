@@ -11,6 +11,13 @@ type Dependencies = {
   dbClient: DbClient;
 }
 
+declare module 'fastify' {
+  interface FastifyInstance {
+    petService: PetService,
+    ownerService: OwnerService
+  }
+}
+
 export default function createApp(options = {}, dependencies: Dependencies) {
   const { dbClient } = dependencies;
 
