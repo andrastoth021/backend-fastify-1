@@ -1,18 +1,13 @@
 import { FastifyPluginAsync } from "fastify"
-import { PetService } from "../../service/pet.service"
 import { PetToCreate } from '../../entity/pet.type';
 import { PetToCreateSchema } from '../../schemas/PetToCreateSchema';
 
-type PluginOptions = {
-  petService: PetService
-}
-
-export const petRoutes: FastifyPluginAsync<PluginOptions> = async (app, { petService }) => {
+export const petRoutes: FastifyPluginAsync = async (app) => {
 
   // ENDPOINTS: /api/pets
 
   app.get('/', async () => {
-    const pets = await petService.getAll();
+    const pets = await app.petService.getAll();
     return pets;
   })
 
@@ -25,7 +20,7 @@ export const petRoutes: FastifyPluginAsync<PluginOptions> = async (app, { petSer
   }, async (request, reply) => {
     const petToCreate = request.body;
 
-    const created = await petService.create(petToCreate);
+    const created = await app.petService.create(petToCreate);
     reply.status(201);
     return created;
   })

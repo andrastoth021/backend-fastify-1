@@ -1,18 +1,13 @@
 import { OwnerToCreateSchema } from '../../schemas/OwnerToCreateSchema';
 import { OwnerToCreate } from '../../entity/owner.type';
-import { OwnerService } from '../../service/owner.service';
 import { FastifyPluginAsync } from 'fastify';
 
-type PluginOptions = {
-  ownerService: OwnerService
-}
-
-export const ownerRoutes: FastifyPluginAsync<PluginOptions> = async (app, { ownerService }) => {
+export const ownerRoutes: FastifyPluginAsync = async (app) => {
 
   // ENDPOINTS: /api/owners
 
   app.get('/', async () => {
-    const owners = await ownerService.getAll();
+    const owners = await app.ownerService.getAll();
     return owners;
   });
   
@@ -25,7 +20,7 @@ export const ownerRoutes: FastifyPluginAsync<PluginOptions> = async (app, { owne
   }, async (request, reply) => {
     const ownerToCreate = request.body;
 
-    const created = await ownerService.create(ownerToCreate);
+    const created = await app.ownerService.create(ownerToCreate);
     reply.status(201);
     return created;
   });
